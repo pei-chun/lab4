@@ -178,7 +178,7 @@ def rosRGBDCallBack(rgb_data, depth_data):
         showPyramid(centerx, centery, zc, w, h)
     img_pub1.publish(cv_bridge.cv2_to_imgmsg(cv_image, encoding="passthrough"))
 
-def getXYZ(xp, yp, zc, fx,fy,cx,cy):
+def getXYZ(xp, yp, zc, fx, fy, cx, cy):
     #### Definition:
     # cx, cy : image center(pixel)
     # fx, fy : focal length
@@ -186,9 +186,18 @@ def getXYZ(xp, yp, zc, fx,fy,cx,cy):
     # zc: depth
     ####
     # Note : please convert depth "zc" to real world coordinate "x, y, z"
+    k = np.asarray([fx,0, cx],[0, fy, cy],[0, 0, 1])
+    inv_k = np.linalg.inv(k)
+    pose = np.asarray([xp],[yp],[1])
+    tf = zc * np.dot(inv_k, pose)
+    z = zc
+    x = tf[0]
+    y = tf[1]
+
     # x = ??
     # y = ??
     # z = ??
+
     return (x,y,z)
 
 

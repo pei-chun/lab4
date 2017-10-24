@@ -186,9 +186,9 @@ def getXYZ(xp, yp, zc, fx, fy, cx, cy):
     # zc: depth
     ####
     # Note : please convert depth "zc" to real world coordinate "x, y, z"
-    k = np.asarray([fx,0, cx],[0, fy, cy],[0, 0, 1])
+    k = np.array(((fx, 0, cx),(0, fy, cy),(0, 0, 1)))
     inv_k = np.linalg.inv(k)
-    pose = np.asarray([xp],[yp],[1])
+    pose = np.array(((xp), (yp), (1)))
     tf = zc * np.dot(inv_k, pose)
     z = zc
     x = tf[0]
